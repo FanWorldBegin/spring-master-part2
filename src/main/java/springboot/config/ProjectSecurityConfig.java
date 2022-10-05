@@ -9,7 +9,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class ProjectSecurityConfig  {
+public class ProjectSecurityConfig {
 
     /**
      * From Spring Security 5.7, the WebSecurityConfigurerAdapter is deprecated to encourage users
@@ -22,7 +22,7 @@ public class ProjectSecurityConfig  {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
+        http.csrf().ignoringAntMatchers("/saveMsg").and()
                 .authorizeRequests()
                 .mvcMatchers("/dashboard").authenticated()
                 .mvcMatchers("/home").permitAll()
@@ -57,4 +57,3 @@ public class ProjectSecurityConfig  {
     }
 
 }
-
