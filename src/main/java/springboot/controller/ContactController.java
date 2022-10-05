@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 import springboot.model.Contact;
 import springboot.services.ContactService;
@@ -14,9 +17,11 @@ import springboot.services.ContactService;
 import javax.validation.Valid;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 @Slf4j
 @Controller
 public class ContactController {
+
     private final ContactService contactService;
 
     @Autowired
@@ -41,7 +46,6 @@ public class ContactController {
         return new ModelAndView("redirect:/contact");
     }*/
 
-
     @RequestMapping(value = "/saveMsg",method = POST)
     public String saveMessage(@Valid @ModelAttribute("contact") Contact contact, Errors errors) {
         if(errors.hasErrors()){
@@ -53,4 +57,7 @@ public class ContactController {
         log.info("Number of times the Contact form is submitted : "+contactService.getCounter());
         return "redirect:/contact";
     }
+
+
+
 }

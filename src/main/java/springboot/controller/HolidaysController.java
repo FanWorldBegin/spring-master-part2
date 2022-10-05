@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class HolidaysController {
 
     @GetMapping("/holidays/{display}")
-    public String displayHolidays(@PathVariable String display, Model model) {
+    public String displayHolidays(@PathVariable String display,Model model) {
         if(null != display && display.equals("all")){
             model.addAttribute("festival",true);
             model.addAttribute("federal",true);
@@ -43,4 +43,5 @@ public class HolidaysController {
         }
         return "holidays.html";
     }
+
 }
