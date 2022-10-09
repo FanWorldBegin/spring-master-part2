@@ -1,11 +1,9 @@
 package springboot.model;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.CreditCardNumber;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 /*
 @Data annotation is provided by Lombok library which generates getter, setter,
@@ -13,7 +11,9 @@ equals(), hashCode(), toString() methods & Constructor at compile time.
 This makes our code short and clean.
 * */
 @Data
-public class Contact {
+public class Contact extends BaseEntity{
+
+    private int contactId;
 
     /*
     * @NotNull: Checks if a given field is not null but allows empty values & zero elements inside collections.
@@ -39,4 +39,6 @@ public class Contact {
     @NotBlank(message="Message must not be blank")
     @Size(min=10, message="Message must be at least 10 characters long")
     private String message;
+
+    private String status;
 }
