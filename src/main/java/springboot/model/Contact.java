@@ -1,8 +1,10 @@
 package springboot.model;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 /*
@@ -11,8 +13,14 @@ equals(), hashCode(), toString() methods & Constructor at compile time.
 This makes our code short and clean.
 * */
 @Data
+@Entity
+@Table(name="contact_msg")
 public class Contact extends BaseEntity{
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
+    @GenericGenerator(name = "native",strategy = "native")
+    @Column(name = "contact_id")
     private int contactId;
 
     /*
