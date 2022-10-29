@@ -6,5 +6,5 @@ import springboot.model.Person;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Integer> {
-
+    Person readByEmail(String email);
 }

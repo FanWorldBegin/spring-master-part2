@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Data
 @MappedSuperclass
-
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
     @CreatedDate
