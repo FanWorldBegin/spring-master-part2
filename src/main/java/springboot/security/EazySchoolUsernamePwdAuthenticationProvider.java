@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import springboot.model.Person;
 import springboot.model.Roles;
@@ -23,6 +24,9 @@ public class EazySchoolUsernamePwdAuthenticationProvider
 {
     @Autowired
     private PersonRepository personRepository;
+    // hashing 解码
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication)
@@ -34,11 +38,10 @@ public class EazySchoolUsernamePwdAuthenticationProvider
         Person person = personRepository.readByEmail(email);
         // 密码是否和存储的数据相等
         if(null != person && person.getPersonId()>0 &&
-                pwd.equals(person.getPwd())){
-            // 清除密码相关token
+                passwordEncoder.matches(pwd,person.getPwd())){
+            // 这里之后不需要在程序中使用密码所以可以设置为null
             return new UsernamePasswordAuthenticationToken(
-                    // 这里传入的是name 不是email
-                    person.getName(), pwd, getGrantedAuthorities(person.getRoles()));
+                    person.getName(), null, getGrantedAuthorities(person.getRoles()));
         }else{
             throw new BadCredentialsException("Invalid credentials!");
         }

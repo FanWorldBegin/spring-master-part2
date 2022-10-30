@@ -24,6 +24,16 @@ public class FieldsValueMatchValidator
                 .getPropertyValue(field);
         Object fieldMatchValue = new BeanWrapperImpl(value)
                 .getPropertyValue(fieldMatch);
+        /*if (fieldValue != null) {
+               // 如果是hashing后的结果, 拥有$2a 前缀的
+            if(fieldValue.toString().startsWith("$2a")){
+                return true;
+            }else {
+                return fieldValue.equals(fieldMatchValue);
+            }
+        } else {
+            return fieldMatchValue == null;
+        }*/
         if (fieldValue != null) {
             return fieldValue.equals(fieldMatchValue);
         } else {
