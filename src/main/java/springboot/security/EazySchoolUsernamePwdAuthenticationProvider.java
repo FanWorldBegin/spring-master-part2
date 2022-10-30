@@ -39,9 +39,9 @@ public class EazySchoolUsernamePwdAuthenticationProvider
         // 密码是否和存储的数据相等
         if(null != person && person.getPersonId()>0 &&
                 passwordEncoder.matches(pwd,person.getPwd())){
-            // 这里之后不需要在程序中使用密码所以可以设置为null
+            // 这里之后不需要在程序中使用密码所以可以设置为null - 在其他地方可以通过Authentication 获取这些信息
             return new UsernamePasswordAuthenticationToken(
-                    person.getName(), null, getGrantedAuthorities(person.getRoles()));
+                    email, null, getGrantedAuthorities(person.getRoles()));
         }else{
             throw new BadCredentialsException("Invalid credentials!");
         }
