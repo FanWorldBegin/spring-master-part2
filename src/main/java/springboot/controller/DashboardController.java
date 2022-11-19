@@ -29,7 +29,11 @@ public class DashboardController {
         Person person = personRepository.readByEmail(authentication.getName());
         model.addAttribute("username", person.getName());
         model.addAttribute("roles", authentication.getAuthorities().toString());
-        // session 中存储用户数据
+        // 查看person是否有class
+        if(null != person.getEazyClass() && null != person.getEazyClass().getName()){
+            model.addAttribute("enrolledClass", person.getEazyClass().getName());
+        }
+        //  session 中存储当前用户信息
         session.setAttribute("loggedInPerson", person);
         return "dashboard.html";
     }

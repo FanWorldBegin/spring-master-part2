@@ -2,11 +2,13 @@ package springboot.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.RequestScope;
@@ -60,10 +62,27 @@ public class ContactController {
         return "redirect:/contact";
     }
 
-    @RequestMapping("/displayMessages")
-    public ModelAndView displayMessages(Model model) {
-        List<Contact> contactMsgs = contactService.findMsgsWithOpenStatus();
+    @RequestMapping("/displayMessages/page/{pageNum}")
+    public ModelAndView displayMessages(Model model,
+                                        @PathVariable(name = "pageNum") int pageNum, @RequestParam("sortField") String sortField,
+                                        @RequestParam("sortDir") String sortDir) {
+        Page<Contact> msgPage = contactService.findMsgsWithOpenStatus(pageNum,sortField,sortDir);
+        // 从分页对象中获取对象数组
+        List<Contact> contactMsgs = msgPage.getContent();
+        // 将数据传递给前端
         ModelAndView modelAndView = new ModelAndView("messages.html");
+        model.addAttribute("currentPage", pageNum);
+        // 返回总页面数量
+        model.addAttribute("totalPages", msgPage.getTotalPages());
+        // 返回总数据数量
+        model.addAttribute("totalMsgs", msgPage.getTotalElements());
+        // 排序字段
+        model.addAttribute("sortField", sortField);
+        // 排序方向
+        model.addAttribute("sortDir", sortDir);
+        // 反转排序
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         modelAndView.addObject("contactMsgs",contactMsgs);
         return modelAndView;
     }

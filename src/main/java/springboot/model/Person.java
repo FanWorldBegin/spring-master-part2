@@ -1,5 +1,8 @@
 package springboot.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -73,4 +76,16 @@ public class Person extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "class_id", referencedColumnName = "classId", nullable = true)
     private EazyClass eazyClass;
+
+    // 多对多
+    // @JoinTable 中间表配置
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "person_courses",
+            joinColumns = {
+            // 中间表在当前表的外键
+                    @JoinColumn(name = "person_id", referencedColumnName = "personId")},
+            inverseJoinColumns = {
+            // 中间表在另一张表的外键
+                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
+    private Set<Courses> courses = new HashSet<>();
 }
