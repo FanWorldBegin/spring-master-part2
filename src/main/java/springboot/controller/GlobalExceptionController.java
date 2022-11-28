@@ -1,17 +1,21 @@
 package springboot.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+// 错误处理返回错误页面
+// 限制不处理restAPI的请求错误
 /*
 @ControllerAdvice is a specialization of the @Component annotation which allows to handle
 exceptions across the whole application in one global handling component. It can be viewed
 as an interceptor of exceptions thrown by methods annotated with @RequestMapping and similar.
 * */
 @Slf4j
-@ControllerAdvice
+// 限制只处理 @Controller 注解的类
+@ControllerAdvice(annotations = Controller.class)
 public class GlobalExceptionController {
 
     /*

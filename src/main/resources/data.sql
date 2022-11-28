@@ -30,9 +30,9 @@ VALUES ('STUDENT',CURDATE(),'DBA');
 
 
 INSERT INTO `person` (`name`,`email`,`mobile_number`,`pwd`,`role_id`,`created_at`, `created_by`)
--- admin admin
+-- admin@eazyschool.com admin
 VALUES ('Admin','admin@eazyschool.com','3443434343','$2a$10$XhU4UcSxDPb5G0I0fT/CZ.Lfj2VW2fkLkUP5cOEM.xM8EzyUQXaD2', 1 ,CURDATE(),'DBA');
--- student student
+-- student@eazyschool.com student
 VALUES ('student','student@eazyschool.com','3443434343','$2a$12$YQB50YeLLRjrnzo01Zmf/OOuQWkye4K77RBDJjieTmuuP7ZMABuoK', 1 ,CURDATE(),'DBA');
 
 

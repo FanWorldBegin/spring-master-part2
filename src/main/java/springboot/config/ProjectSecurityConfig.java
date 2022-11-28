@@ -26,7 +26,7 @@ public class ProjectSecurityConfig {
 
         http.csrf().ignoringAntMatchers("/saveMsg").ignoringAntMatchers("/h2-console/**")
                 //添加跨域忽略
-                .ignoringAntMatchers("/public/**").and()
+                .ignoringAntMatchers("/public/**").ignoringAntMatchers("/api/**").and()
                 .authorizeRequests()
                 .mvcMatchers("/dashboard").authenticated()
                 .mvcMatchers("/displayProfile").authenticated()
@@ -34,6 +34,7 @@ public class ProjectSecurityConfig {
                 .mvcMatchers("/student/**").hasRole("STUDENT")
                 .mvcMatchers("/displayMessages").hasRole("ADMIN")
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
+                .mvcMatchers("/api/**").authenticated()
                 .mvcMatchers("/home").permitAll()
                 .mvcMatchers("/holidays/**").permitAll()
                 .mvcMatchers("/contact").permitAll()
