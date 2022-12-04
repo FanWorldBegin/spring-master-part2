@@ -26,11 +26,15 @@ public class ProjectSecurityConfig {
 
         http.csrf().ignoringAntMatchers("/saveMsg").ignoringAntMatchers("/h2-console/**")
                 //添加跨域忽略
-                .ignoringAntMatchers("/public/**").ignoringAntMatchers("/api/**").and()
+                .ignoringAntMatchers("/public/**").ignoringAntMatchers("/api/**")
+                //禁止跨域限制
+                .ignoringAntMatchers("/data-api/**").and()
                 .authorizeRequests()
                 .mvcMatchers("/dashboard").authenticated()
-                .mvcMatchers("/displayProfile").authenticated()
                 .mvcMatchers("/updateProfile").authenticated()
+                .mvcMatchers("/displayProfile").authenticated()
+                // 保护自动生成的api
+                .mvcMatchers("/data-api/**").authenticated()
                 .mvcMatchers("/student/**").hasRole("STUDENT")
                 .mvcMatchers("/displayMessages").hasRole("ADMIN")
                 .mvcMatchers("/admin/**").hasRole("ADMIN")

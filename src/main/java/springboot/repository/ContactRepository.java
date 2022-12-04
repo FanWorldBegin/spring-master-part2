@@ -28,7 +28,7 @@ public interface ContactRepository extends CrudRepository<Contact, Integer> {
     // native query使用 表中的列名
     //@Query(value = "SELECT * FROM contact_msg c WHERE c.status = :status",nativeQuery = true)
     // @Param("status") 如果变量名字和query中使用的名字不一样，可以取别名
-    Page<Contact> findByStatus(@Param("status") String status, Pageable pageable);
+    Page<Contact> findByStatusWithQuery(@Param("status") String status, Pageable pageable);
 
     @Transactional
     @Modifying

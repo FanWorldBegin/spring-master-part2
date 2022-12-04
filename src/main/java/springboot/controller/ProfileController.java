@@ -19,7 +19,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Slf4j
-@Controller
+// 避免和DataRest自动创建的bean重名
+@Controller("ProfileControllerBean")
 public class ProfileController {
 
     @Autowired
