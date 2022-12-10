@@ -1,5 +1,7 @@
 package springboot.security;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -16,32 +18,24 @@ import springboot.model.Person;
 import springboot.model.Roles;
 import springboot.repository.PersonRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
-@Profile("prod")
-public class EazySchoolUsernamePwdAuthenticationProvider
+@Profile("!prod")
+public class EazySchoolNonProdUsernamePwdAuthenticationProvider
         implements AuthenticationProvider
 {
     @Autowired
     private PersonRepository personRepository;
-    // hashing 解码
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
-        // 获取密码, 邮箱
         String email = authentication.getName();
         String pwd = authentication.getCredentials().toString();
-        // 使用email 去查找当前的用户
         Person person = personRepository.readByEmail(email);
-        // 密码是否和存储的数据相等
-        if(null != person && person.getPersonId()>0 &&
-                passwordEncoder.matches(pwd,person.getPwd())){
-            // 这里之后不需要在程序中使用密码所以可以设置为null - 在其他地方可以通过Authentication 获取这些信息
+        if(null != person && person.getPersonId()>0){
             return new UsernamePasswordAuthenticationToken(
                     email, null, getGrantedAuthorities(person.getRoles()));
         }else{
@@ -49,7 +43,6 @@ public class EazySchoolUsernamePwdAuthenticationProvider
         }
     }
 
-    // Security will always maintain all your rules with the prefix role and the score.
     private List<GrantedAuthority> getGrantedAuthorities(Roles roles) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+roles.getRoleName()));
@@ -60,4 +53,5 @@ public class EazySchoolUsernamePwdAuthenticationProvider
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
+
 }
